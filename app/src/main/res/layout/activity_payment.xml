@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="24dp"
+    android:background="@color/background_light">
+
+    <TextView
+        android:id="@+id/tvPaymentTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="PEMBAYARAN"
+        android:textColor="@color/brand_brown"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="24dp"/>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cvQRCode"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tvPaymentTitle"
+        android:layout_centerInParent="true"
+        app:cardCornerRadius="20dp"
+        app:cardElevation="8dp"
+        app:cardBackgroundColor="@color/white">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="32dp"
+            android:gravity="center">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Scan QRIS di bawah ini"
+                android:textSize="14sp"
+                android:textColor="@color/grey_text"
+                android:layout_marginBottom="16dp"/>
+
+            <ImageView
+                android:id="@+id/ivQRCode"
+                android:layout_width="220dp"
+                android:layout_height="220dp"
+                android:src="@drawable/qris_dummy"
+                android:scaleType="fitCenter"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Total Tagihan"
+                android:textSize="12sp"
+                android:textColor="@color/grey_text"
+                android:layout_marginTop="24dp"/>
+
+            <TextView
+                android:id="@+id/tvPaymentTotal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Rp 0"
+                android:textSize="28sp"
+                android:textStyle="bold"
+                android:textColor="@color/brand_dark_rust"
+                android:layout_marginTop="4dp"/>
+
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_below="@id/cvQRCode"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="32dp"
+        android:gravity="center">
+
+        <TextView
+            android:id="@+id/tvTimerLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Sisa Waktu Pembayaran"
+            android:textSize="12sp"
+            android:textColor="@color/grey_text"/>
+
+        <TextView
+            android:id="@+id/tvTimer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="05:00"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:textColor="@color/brand_brown"
+            android:layout_marginTop="4dp"/>
+    </LinearLayout>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnConfirmPayment"
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:text="SAYA SUDAH BAYAR"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:cornerRadius="12dp"
+        app:backgroundTint="@color/brand_olive"
+        android:layout_alignParentBottom="true"/>
+
+</RelativeLayout>

@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="24dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tvDialogMenuName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Nama Menu"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:textColor="@android:color/black"
+            android:layout_marginBottom="16dp"/>
+
+        <LinearLayout
+            android:id="@+id/layoutOpsiPedas"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Level Pedas:"
+                android:textStyle="bold" />
+
+            <RadioGroup
+                android:id="@+id/rgOpsiPedas"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <RadioButton
+                    android:id="@+id/rbPedas_Tidak"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Tidak Pedas"
+                    android:checked="true"/>
+                <RadioButton
+                    android:id="@+id/rbPedas_Sedang"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Sedang"/>
+                <RadioButton
+                    android:id="@+id/rbPedas_Pedas"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Pedas"/>
+            </RadioGroup>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/layoutOpsiGula"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="gone"
+            android:layout_marginTop="16dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Level Gula:"
+                android:textStyle="bold" />
+
+            <RadioGroup
+                android:id="@+id/rgOpsiGula"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <RadioButton
+                    android:id="@+id/rbGula_Normal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Normal"
+                    android:checked="true"/>
+                <RadioButton
+                    android:id="@+id/rbGula_Low"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Low Sugar"/>
+
+                <RadioButton
+                    android:id="@+id/rbGula_Tidak"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Tidak Manis"/>
+            </RadioGroup>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="16dp"
+            android:gravity="center_vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Jumlah:"
+                android:textStyle="bold"
+                android:layout_marginEnd="16dp"/>
+
+            <ImageButton
+                android:id="@+id/btnDialogKurang"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:src="@drawable/icon_kurang"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                app:tint="?attr/colorPrimary"
+                android:contentDescription="Kurangi Jumlah"/>
+
+            <TextView
+                android:id="@+id/tvDialogQuantity"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="1"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:layout_marginHorizontal="16dp"/>
+
+            <ImageButton
+                android:id="@+id/btnDialogTambah"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:src="@drawable/icon_tambah"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                app:tint="?attr/colorPrimary"
+                android:contentDescription="Tambah Jumlah"/>
+
+        </LinearLayout>
+
+        <EditText
+            android:id="@+id/etDialogCatatan"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Catatan tambahan (opsional)"
+            android:inputType="text"
+            android:layout_marginTop="16dp"/>
+
+    </LinearLayout>
+</ScrollView>

@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@drawable/bg_bottom_sheet"
+    android:paddingBottom="16dp">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/ivSheetImage"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/ic_food_placeholder" />
+
+        <ImageButton
+            android:id="@+id/btnCloseSheet"
+            android:layout_width="36dp"
+            android:layout_height="35dp"
+            android:layout_gravity="top|end"
+            android:layout_margin="16dp"
+            android:background="@drawable/bg_circle_button"
+            android:elevation="4dp"
+            android:src="@drawable/icon_kebawah"
+            app:tint="@color/black" />
+    </FrameLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="24dp">
+
+        <TextView
+            android:id="@+id/tvSheetMenuName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Nama Menu"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            android:textColor="@color/black"/>
+
+        <TextView
+            android:id="@+id/tvSheetPrice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Rp 15.000"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:textColor="@color/brand_dark_rust"
+            android:layout_marginTop="4dp"/>
+
+        <TextView
+            android:id="@+id/tvSheetDesc"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Deskripsi menu..."
+            android:textSize="14sp"
+            android:textColor="@color/grey_text"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="24dp"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#E0E0E0"
+            android:layout_marginBottom="16dp"/>
+
+        <LinearLayout
+            android:id="@+id/layoutSheetOpsiPedas"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Level Pedas"
+                android:textStyle="bold"
+                android:layout_marginBottom="8dp"/>
+
+            <RadioGroup
+                android:id="@+id/rgSheetOpsiPedas"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <RadioButton android:id="@+id/rbPedas0" android:text="Tidak Pedas" android:layout_width="match_parent" android:layout_height="wrap_content" android:checked="true"/>
+                <RadioButton android:id="@+id/rbPedas1" android:text="Sedang" android:layout_width="match_parent" android:layout_height="wrap_content"/>
+                <RadioButton android:id="@+id/rbPedas2" android:text="Pedas" android:layout_width="match_parent" android:layout_height="wrap_content"/>
+            </RadioGroup>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/layoutSheetOpsiGula"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Level Gula"
+                android:textStyle="bold"
+                android:layout_marginBottom="8dp"/>
+
+            <RadioGroup
+                android:id="@+id/rgSheetOpsiGula"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <RadioButton android:id="@+id/rbGula0" android:text="Normal" android:layout_width="match_parent" android:layout_height="wrap_content" android:checked="true"/>
+                <RadioButton android:id="@+id/rbGula1" android:text="Less Sugar" android:layout_width="match_parent" android:layout_height="wrap_content"/>
+                <RadioButton android:id="@+id/rbGula2" android:text="No Sugar" android:layout_width="match_parent" android:layout_height="wrap_content"/>
+            </RadioGroup>
+        </LinearLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Catatan tambahan (opsional)"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_marginTop="16dp">
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etSheetCatatan"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginTop="24dp">
+
+            <ImageButton
+                android:id="@+id/btnSheetKurang"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@drawable/icon_kurang"
+                android:background="@drawable/bg_circle_button"
+                android:backgroundTint="#EEEEEE"
+                app:tint="@color/black"/>
+
+            <TextView
+                android:id="@+id/tvSheetQuantity"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="1"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:layout_marginHorizontal="16dp"/>
+
+            <ImageButton
+                android:id="@+id/btnSheetTambah"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@drawable/icon_tambah"
+                android:rotation="90"
+                android:background="@drawable/bg_circle_button"
+                android:backgroundTint="@color/brand_brown"
+                app:tint="@color/white"/>
+
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"/>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnSheetAddToCart"
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:text="TAMBAH"
+                android:textStyle="bold"
+                app:cornerRadius="12dp"
+                android:backgroundTint="@color/brand_brown"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

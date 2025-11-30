@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="brand_cream">#E8D1A7</color>
+    <color name="brand_brown">#84592B</color>
+    <color name="brand_dark_rust">#743014</color>
+    <color name="brand_olive">#9D9167</color>
+    <color name="brand_coffee">#442D1C</color>
+
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="background_light">#FAFAFA</color>
+    <color name="grey_text">#888888</color>
+
+    <color name="darker_gray">#AAAAAA</color>
+</resources>
