@@ -31,9 +31,7 @@ public class CartFragment extends Fragment implements CartAdapter.OnCartUpdatedL
     private RecyclerView rvCart;
     private LinearLayout layoutEmptyState;
     private TextView tvTotalPrice;
-
-    // --- PERBAIKAN UTAMA DI SINI ---
-    private CardView bottomLayout; // Harus CardView, bukan LinearLayout!
+    private CardView bottomLayout; // Harus CardView, jangan LinearLayout
     // -------------------------------
 
     private Button btnCheckout;
@@ -50,7 +48,7 @@ public class CartFragment extends Fragment implements CartAdapter.OnCartUpdatedL
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_cart, container, false);
 
-        // 1. Ambil Data dengan Aman
+        // 1. Ambil Data
         try {
             cartManager = CartManager.getInstance();
             cartItems = cartManager.getCartItems();
@@ -59,12 +57,10 @@ public class CartFragment extends Fragment implements CartAdapter.OnCartUpdatedL
             cartItems = new ArrayList<>();
         }
 
-        // 2. Hubungkan View dengan ID di XML
         rvCart = view.findViewById(R.id.rvCart);
         layoutEmptyState = view.findViewById(R.id.layoutEmptyState);
         tvTotalPrice = view.findViewById(R.id.tvTotalPrice);
 
-        // PENTING: Ini sekarang aman karena tipe variabelnya sudah CardView
         bottomLayout = view.findViewById(R.id.bottomLayout);
 
         btnCheckout = view.findViewById(R.id.btnCheckout);
@@ -77,7 +73,6 @@ public class CartFragment extends Fragment implements CartAdapter.OnCartUpdatedL
             rvCart.setAdapter(cartAdapter);
         }
 
-        // 4. Update Tampilan Awal
         updateCartView();
 
         // 5. Tombol Checkout
@@ -114,7 +109,6 @@ public class CartFragment extends Fragment implements CartAdapter.OnCartUpdatedL
             }
 
             // Update Tampilan Kosong/Isi
-            // Cek null dulu biar gak crash
             if (layoutEmptyState != null && rvCart != null && bottomLayout != null) {
                 if (cartItems.isEmpty()) {
                     rvCart.setVisibility(View.GONE);
@@ -134,7 +128,6 @@ public class CartFragment extends Fragment implements CartAdapter.OnCartUpdatedL
     @Override
     public void onCartUpdated() {
         updateCartView();
-        // Panggil listener MainActivity dengan aman
         if (mCartUpdateListener != null) {
             try {
                 mCartUpdateListener.onCartUpdated();
@@ -156,11 +149,9 @@ public class CartFragment extends Fragment implements CartAdapter.OnCartUpdatedL
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
-        // PENGAMAN: Cek dulu apakah Activity implement listener
         if (context instanceof HomeFragment.OnCartUpdatedListener) {
             mCartUpdateListener = (HomeFragment.OnCartUpdatedListener) context;
         } else {
-            // Hanya warning di log, tidak bikin crash
             Log.w("CartFragment", "Activity tidak implement OnCartUpdatedListener.");
         }
     }

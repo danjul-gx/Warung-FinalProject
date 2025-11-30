@@ -7,9 +7,7 @@ public class Menu {
     private String kategori;
     private String gambar;
 
-    // --- [CRITICAL FIX] No-Argument Constructor (Required by Firebase) ---
     public Menu() {
-        // Empty constructor needed for Firestore serialization
     }
     // ---------------------------------------------------------------------
 

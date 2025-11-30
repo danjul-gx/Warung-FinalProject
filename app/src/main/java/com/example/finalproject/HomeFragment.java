@@ -40,7 +40,6 @@ public class HomeFragment extends Fragment implements MenuAdapter.OnItemAddedLis
     private EditText etSearch;
     private ViewPager2 vpBanner;
 
-    // Komponen Loading Baru
     private ProgressBar progressBar;
     private View mainContent;
 
@@ -72,11 +71,9 @@ public class HomeFragment extends Fragment implements MenuAdapter.OnItemAddedLis
         etSearch = view.findViewById(R.id.etSearch);
         vpBanner = view.findViewById(R.id.vpBanner);
 
-        // Hubungkan Loading View
         progressBar = view.findViewById(R.id.progressBar);
         mainContent = view.findViewById(R.id.mainContent);
 
-        // --- BANNER SETUP ---
         List<Integer> bannerImages = Arrays.asList(
                 R.drawable.banner_1, R.drawable.banner_1, R.drawable.banner_1
         );

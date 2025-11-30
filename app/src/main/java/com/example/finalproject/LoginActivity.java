@@ -36,22 +36,18 @@ public class LoginActivity extends AppCompatActivity {
         // 1. Inisialisasi Firebase Auth
         mAuth = FirebaseAuth.getInstance();
 
-        // 2. Cek apakah user sudah login sebelumnya? (Auto Login)
-        // Kalau sudah login, langsung lempar ke MainActivity (tanpa perlu isi password lagi)
         if (mAuth.getCurrentUser() != null) {
             startActivity(new Intent(LoginActivity.this, MainActivity.class));
             finish(); // Tutup halaman login
             return;
         }
 
-        // 3. Hubungkan dengan ID di XML (activity_login.xml)
-        // Pastikan ID ini SAMA PERSIS dengan yang ada di layout
         etEmail = findViewById(R.id.etEmailLogin);
         etPassword = findViewById(R.id.etPasswordLogin);
         btnLogin = findViewById(R.id.btnLogin);
         tvRegisterLink = findViewById(R.id.tvRegisterLink);
 
-        // 4. Tombol Login Klik
+        // 4. Tombol Login click
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -59,7 +55,7 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-        // 5. Link Register Klik
+        // 5. Link Register click
         tvRegisterLink.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

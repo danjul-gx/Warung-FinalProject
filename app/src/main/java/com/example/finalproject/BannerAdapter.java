@@ -25,7 +25,7 @@ public class BannerAdapter extends RecyclerView.Adapter<BannerAdapter.BannerView
 
     @Override
     public void onBindViewHolder(@NonNull BannerViewHolder holder, int position) {
-        // Menggunakan gambar lokal (Drawable)
+        // make gambar lokal (Drawable)
         holder.ivBanner.setImageResource(bannerImages.get(position));
     }
 

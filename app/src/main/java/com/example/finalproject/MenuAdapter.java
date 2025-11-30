@@ -33,7 +33,6 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.MenuViewHolder
     CartManager cartManager;
     private OnItemAddedListener mListener;
 
-    // Interface agar HomeFragment tahu ada item baru (Update Badge Keranjang)
     public interface OnItemAddedListener {
         void onItemAdded();
     }
@@ -71,18 +70,16 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.MenuViewHolder
             Glide.with(context)
                     .load(menu.getGambar())
                     .centerCrop()
-                    .placeholder(R.drawable.ic_food_placeholder) // Gambar loading
-                    .error(R.drawable.ic_food_placeholder)       // Gambar jika error
+                    .placeholder(R.drawable.ic_food_placeholder)
+                    .error(R.drawable.ic_food_placeholder)
                     .into(holder.ivMenuImage);
         } else {
-            // Jika URL kosong, pakai placeholder default
+            // ini kalo URL kosong, pake placeholder default
             holder.ivMenuImage.setImageResource(R.drawable.ic_food_placeholder);
         }
 
-        // 3. Klik Tombol Tambah (+) -> Buka Bottom Sheet Opsi
         holder.btnAddToCart.setOnClickListener(v -> showBottomSheet(menu));
 
-        // 4. Klik Kartu Menu (Area Gambar/Teks) -> Buka Detail Activity
         holder.itemView.setOnClickListener(v -> {
             Intent intent = new Intent(context, DetailActivity.class);
             intent.putExtra("nama", menu.getNamaMenu());
@@ -186,7 +183,7 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.MenuViewHolder
             CartItem cartItem = new CartItem(menu, finalQuantity, opsiPedas, opsiGula, catatan);
             cartManager.addCartItem(cartItem);
 
-            // Tampilkan Snackbar (Notifikasi)
+            // Snackbar (Notifikasi)
             Snackbar snackbar = Snackbar.make(view, "Berhasil masuk keranjang!", Snackbar.LENGTH_SHORT);
             snackbar.getView().setBackgroundColor(context.getResources().getColor(R.color.brand_brown));
             snackbar.setTextColor(context.getResources().getColor(R.color.white));

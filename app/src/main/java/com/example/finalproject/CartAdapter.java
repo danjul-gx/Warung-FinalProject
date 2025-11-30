@@ -58,7 +58,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
         String formattedPrice = formatter.format(item.getItemTotalPrice());
         holder.tvCartItemTotalPrice.setText(formattedPrice);
 
-        // 2. Set Gambar (Pakai Glide lagi biar konsisten)
+        // 2. Set Gambar
         if (menu.getGambar() != null && !menu.getGambar().isEmpty()) {
             Glide.with(context)
                     .load(menu.getGambar())
@@ -120,7 +120,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
             tvCartOpsi = itemView.findViewById(R.id.tvCartOpsi);
             tvCartCatatan = itemView.findViewById(R.id.tvCartCatatan);
             btnRemoveItem = itemView.findViewById(R.id.btnRemoveItem);
-            ivCartItemImage = itemView.findViewById(R.id.ivCartItemImage); // <-- Hubungkan ID
+            ivCartItemImage = itemView.findViewById(R.id.ivCartItemImage); // <-- Hubungin ID
         }
     }
 }

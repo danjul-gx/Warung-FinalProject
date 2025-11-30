@@ -29,14 +29,14 @@ import java.util.Map;
 
 public class RegisterActivity extends AppCompatActivity {
 
-    // 1. Deklarasi View
+    // Deklarasi View
     EditText etEmail, etPassword, etNama; // <-- BARU: etNama
     RadioGroup radioGroupGender;
     CheckBox cbTerms;
     Button btnRegister;
     TextView tvLoginLink;
 
-    // 2. Deklarasi Firebase
+    // Deklarasi Firebase
     FirebaseAuth mAuth;
     FirebaseFirestore db;
 
@@ -45,11 +45,10 @@ public class RegisterActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
-        // 3. Inisialisasi Firebase
+        // Inisialisasi Firebase
         mAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
 
-        // 4. Hubungkan View dengan ID di XML
         etNama = findViewById(R.id.etNamaRegister); // <-- BARU: Hubungkan etNama
         etEmail = findViewById(R.id.etEmailRegister);
         etPassword = findViewById(R.id.etPasswordRegister);
@@ -58,7 +57,6 @@ public class RegisterActivity extends AppCompatActivity {
         btnRegister = findViewById(R.id.btnRegister);
         tvLoginLink = findViewById(R.id.tvLoginLink);
 
-        // 5. Set OnClickListener untuk Tombol Register
         btnRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -66,7 +64,6 @@ public class RegisterActivity extends AppCompatActivity {
             }
         });
 
-        // 6. Set OnClickListener untuk Link ke Login
         tvLoginLink.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -76,14 +73,11 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     private void registerUser() {
-        // BARU: Ambil data nama
         String nama = etNama.getText().toString().trim();
         String email = etEmail.getText().toString().trim();
         String password = etPassword.getText().toString().trim();
         int selectedGenderId = radioGroupGender.getCheckedRadioButtonId();
 
-        // Validasi input
-        // BARU: Validasi nama
         if (TextUtils.isEmpty(nama)) {
             etNama.setError("Nama tidak boleh kosong");
             etNama.requestFocus();
@@ -116,7 +110,6 @@ public class RegisterActivity extends AppCompatActivity {
 
         Toast.makeText(this, "Memproses pendaftaran...", Toast.LENGTH_SHORT).show();
 
-        // 7. Gunakan method Firebase untuk membuat user baru (AUTH)
         mAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
@@ -130,7 +123,6 @@ public class RegisterActivity extends AppCompatActivity {
                             RadioButton selectedRadioButton = findViewById(selectedGenderId);
                             String gender = selectedRadioButton.getText().toString();
 
-                            // BARU: Tambahkan 'nama' ke "kotak" data
                             Map<String, Object> userData = new HashMap<>();
                             userData.put("nama", nama); // <-- INI DIA
                             userData.put("email", email);

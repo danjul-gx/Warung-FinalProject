@@ -1,12 +1,11 @@
 package com.example.finalproject.models;
 
-// Class ini merepresentasikan satu item di keranjang, termasuk opsi tambahan
 public class CartItem {
-    private Menu menu; // Objek Menu yang dipesan
-    private int quantity; // Jumlah item yang dipesan
-    private String opsiPedas; // Contoh: "Tidak Pedas", "Sedang", "Pedas"
-    private String opsiGula;  // Contoh: "Normal", "Low Sugar", "Tidak Manis"
-    private String catatanTambahan; // Untuk request lain-lain
+    private Menu menu;
+    private int quantity;
+    private String opsiPedas;
+    private String opsiGula;
+    private String catatanTambahan;
 
     public CartItem(Menu menu, int quantity, String opsiPedas, String opsiGula, String catatanTambahan) {
         this.menu = menu;
@@ -16,7 +15,6 @@ public class CartItem {
         this.catatanTambahan = catatanTambahan;
     }
 
-    // Constructor default (wajib jika nanti mau simpan ke Firestore/Gson)
     public CartItem() {
         // Default values
         this.quantity = 1;
@@ -46,7 +44,7 @@ public class CartItem {
         return catatanTambahan;
     }
 
-    // --- Setters (Jika nanti perlu mengubah kuantitas atau opsi di keranjang) ---
+    // --- Setters  ---
     public void setQuantity(int quantity) {
         this.quantity = quantity;
     }

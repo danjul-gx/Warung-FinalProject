@@ -18,7 +18,7 @@ import com.google.firebase.auth.FirebaseUser;
 public class ProfileFragment extends Fragment {
 
     private TextView tvName, tvEmail;
-    private Button btnLogout, btnEditProfile; // Tambahan btnEditProfile
+    private Button btnLogout, btnEditProfile, btnOrderStatus;
     private FirebaseAuth mAuth;
 
     @Nullable
@@ -28,33 +28,24 @@ public class ProfileFragment extends Fragment {
 
         mAuth = FirebaseAuth.getInstance();
 
-        // --- PERBAIKAN ID DI SINI ---
-        // ID ini harus SAMA PERSIS dengan yang ada di fragment_profile.xml (Versi Premium)
         tvName = view.findViewById(R.id.tvName);
         tvEmail = view.findViewById(R.id.tvEmail);
         btnLogout = view.findViewById(R.id.btnLogout);
         btnEditProfile = view.findViewById(R.id.btnEditProfile);
+        btnOrderStatus = view.findViewById(R.id.btnOrderStatus);
 
-        // Ambil data user
+        // Set Data User
         FirebaseUser user = mAuth.getCurrentUser();
         if (user != null) {
-            // Set Email
-            if (tvEmail != null) {
-                tvEmail.setText(user.getEmail());
-            }
-
-            // Set Nama
-            if (tvName != null) {
-                if (user.getDisplayName() != null && !user.getDisplayName().isEmpty()) {
-                    tvName.setText(user.getDisplayName());
+            tvEmail.setText(user.getEmail());
+            if (user.getDisplayName() != null && !user.getDisplayName().isEmpty()) {
+                tvName.setText(user.getDisplayName());
+            } else {
+                String email = user.getEmail();
+                if (email != null && email.contains("@")) {
+                    tvName.setText(email.substring(0, email.indexOf("@")));
                 } else {
-                    // Ambil nama dari email jika display name kosong
-                    String email = user.getEmail();
-                    if (email != null && email.contains("@")) {
-                        tvName.setText(email.substring(0, email.indexOf("@")));
-                    } else {
-                        tvName.setText("Pengguna");
-                    }
+                    tvName.setText("Pengguna");
                 }
             }
         }
@@ -69,10 +60,18 @@ public class ProfileFragment extends Fragment {
             });
         }
 
-        // Tombol Edit (Opsional, bisa diisi intent ke halaman edit nanti)
+        // Tombol Lacak Pesanan
+        if (btnOrderStatus != null) {
+            btnOrderStatus.setOnClickListener(v -> {
+                Intent intent = new Intent(getActivity(), OrderStatusActivity.class);
+                startActivity(intent);
+            });
+        }
+
+        // Tombol Edit (Placeholder)
         if (btnEditProfile != null) {
             btnEditProfile.setOnClickListener(v -> {
-                // Tambahkan logika edit profil di sini jika sudah ada activity-nya
+                // Tambahkan intent ke EditProfileActivity jika sudah ada
             });
         }
 

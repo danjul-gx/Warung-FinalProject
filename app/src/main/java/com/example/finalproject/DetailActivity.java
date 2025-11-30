@@ -23,7 +23,6 @@ public class DetailActivity extends AppCompatActivity {
     ImageButton btnBack;
     MaterialButton btnDetailAddToCart;
 
-    // Data Menu yang sedang dibuka
     Menu currentMenu;
 
     @Override
@@ -31,7 +30,6 @@ public class DetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
 
-        // Hubungkan View
         ivDetailImage = findViewById(R.id.ivDetailImage);
         tvDetailName = findViewById(R.id.tvDetailName);
         tvDetailPrice = findViewById(R.id.tvDetailPrice);
@@ -39,7 +37,6 @@ public class DetailActivity extends AppCompatActivity {
         btnBack = findViewById(R.id.btnBack);
         btnDetailAddToCart = findViewById(R.id.btnDetailAddToCart);
 
-        // 1. AMBIL DATA DARI INTENT
         if (getIntent().hasExtra("nama")) {
             String nama = getIntent().getStringExtra("nama");
             String deskripsi = getIntent().getStringExtra("deskripsi");
@@ -47,17 +44,14 @@ public class DetailActivity extends AppCompatActivity {
             String gambar = getIntent().getStringExtra("gambar"); // Ambil URL
             String kategori = getIntent().getStringExtra("kategori");
 
-            // Buat object Menu sementara
             currentMenu = new Menu(nama, harga, deskripsi, kategori, gambar);
 
-            // Set ke Tampilan
             tvDetailName.setText(nama);
             tvDetailDesc.setText(deskripsi);
 
             NumberFormat formatter = NumberFormat.getCurrencyInstance(new Locale("id", "ID"));
             tvDetailPrice.setText(formatter.format(harga));
 
-            // 2. LOAD GAMBAR (MURNI DARI URL GLIDE)
             if (gambar != null && !gambar.isEmpty()) {
                 Glide.with(this)
                         .load(gambar)
@@ -66,7 +60,7 @@ public class DetailActivity extends AppCompatActivity {
                         .error(R.drawable.ic_food_placeholder)       // Error
                         .into(ivDetailImage);
             } else {
-                // Jika URL kosong, pakai placeholder default
+                // ini kalo URL nya kosong, pakai placeholder default
                 ivDetailImage.setImageResource(R.drawable.ic_food_placeholder);
             }
         }
@@ -76,8 +70,6 @@ public class DetailActivity extends AppCompatActivity {
 
         // Tombol Tambah ke Keranjang (Simple: Tambah 1 Pcs)
         btnDetailAddToCart.setOnClickListener(v -> {
-            // Kita tambahkan 1 item dengan opsi default ("Normal")
-            // Jika mau fitur opsi lengkap, logic-nya harus dicopy dari BottomSheet
             CartItem item = new CartItem(currentMenu, 1, "Normal", "Normal", "");
             CartManager.getInstance().addCartItem(item);
 

@@ -123,6 +123,20 @@
             android:layout_marginTop="32dp">
 
             <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnOrderStatus"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:text="Lacak Pesanan"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:textColor="@color/brand_brown"
+                app:strokeColor="@color/brand_brown"
+                app:strokeWidth="1dp"
+                app:cornerRadius="12dp"
+                android:layout_marginBottom="16dp"/>
+
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnEditProfile"
                 style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                 android:layout_width="match_parent"
