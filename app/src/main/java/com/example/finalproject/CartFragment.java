@@ -27,12 +27,12 @@ import java.util.Locale;
 
 public class CartFragment extends Fragment implements CartAdapter.OnCartUpdatedListener {
 
-    // Deklarasi View
     private RecyclerView rvCart;
     private LinearLayout layoutEmptyState;
     private TextView tvTotalPrice;
-    private CardView bottomLayout; // Harus CardView, jangan LinearLayout
-    // -------------------------------
+
+    private CardView bottomLayout;
+    // ------------------------------------
 
     private Button btnCheckout;
 
@@ -40,7 +40,6 @@ public class CartFragment extends Fragment implements CartAdapter.OnCartUpdatedL
     private CartAdapter cartAdapter;
     private ArrayList<CartItem> cartItems;
 
-    // Listener ke MainActivity
     private HomeFragment.OnCartUpdatedListener mCartUpdateListener;
 
     @Nullable
@@ -48,7 +47,7 @@ public class CartFragment extends Fragment implements CartAdapter.OnCartUpdatedL
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_cart, container, false);
 
-        // 1. Ambil Data
+        // Ambil Data
         try {
             cartManager = CartManager.getInstance();
             cartItems = cartManager.getCartItems();
@@ -57,15 +56,17 @@ public class CartFragment extends Fragment implements CartAdapter.OnCartUpdatedL
             cartItems = new ArrayList<>();
         }
 
+        // Hubungkan View
         rvCart = view.findViewById(R.id.rvCart);
         layoutEmptyState = view.findViewById(R.id.layoutEmptyState);
         tvTotalPrice = view.findViewById(R.id.tvTotalPrice);
 
+        // ID bottomLayout di XML itu CardView, jadi variabelnya harus CardView
         bottomLayout = view.findViewById(R.id.bottomLayout);
 
         btnCheckout = view.findViewById(R.id.btnCheckout);
 
-        // 3. Setup RecyclerView
+        //  Setup RecyclerView
         if (rvCart != null) {
             rvCart.setHasFixedSize(true);
             rvCart.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -75,14 +76,13 @@ public class CartFragment extends Fragment implements CartAdapter.OnCartUpdatedL
 
         updateCartView();
 
-        // 5. Tombol Checkout
+        //  Tombol Checkout
         if (btnCheckout != null) {
             btnCheckout.setOnClickListener(v -> {
                 if (cartItems.isEmpty()) {
                     Toast.makeText(getContext(), "Keranjang kosong!", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                // Pindah ke Payment
                 try {
                     Intent intent = new Intent(getActivity(), PaymentActivity.class);
                     startActivity(intent);
@@ -99,7 +99,6 @@ public class CartFragment extends Fragment implements CartAdapter.OnCartUpdatedL
         if (getContext() == null || cartManager == null) return;
 
         try {
-            // Update Harga
             long totalPrice = cartManager.getTotalPrice();
             NumberFormat formatter = NumberFormat.getCurrencyInstance(new Locale("id", "ID"));
             String formattedTotalPrice = formatter.format(totalPrice);
@@ -108,7 +107,6 @@ public class CartFragment extends Fragment implements CartAdapter.OnCartUpdatedL
                 tvTotalPrice.setText(formattedTotalPrice);
             }
 
-            // Update Tampilan Kosong/Isi
             if (layoutEmptyState != null && rvCart != null && bottomLayout != null) {
                 if (cartItems.isEmpty()) {
                     rvCart.setVisibility(View.GONE);
