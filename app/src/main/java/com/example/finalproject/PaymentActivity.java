@@ -16,6 +16,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.SetOptions;
 
 import java.text.NumberFormat;
 import java.util.ArrayList;
@@ -60,7 +61,6 @@ public class PaymentActivity extends AppCompatActivity {
         countDownTimer = new CountDownTimer(durationInMillis, 1000) {
             @Override
             public void onTick(long millisUntilFinished) {
-                // Format waktu MM:SS
                 int seconds = (int) (millisUntilFinished / 1000);
                 int minutes = seconds / 60;
                 seconds = seconds % 60;
@@ -70,16 +70,18 @@ public class PaymentActivity extends AppCompatActivity {
             @Override
             public void onFinish() {
                 tvTimer.setText("00:00");
+                btnConfirmPayment.setEnabled(false);
+                btnConfirmPayment.setText("WAKTU HABIS");
                 Toast.makeText(PaymentActivity.this, "Waktu pembayaran habis!", Toast.LENGTH_SHORT).show();
-                // Opsional: Bisa disable tombol bayar di sini
             }
         }.start();
     }
 
     private void processOrder(long totalPrice) {
         FirebaseUser user = mAuth.getCurrentUser();
+
         if (user == null) {
-            Toast.makeText(this, "User tidak ditemukan!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Silakan login terlebih dahulu!", Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -97,27 +99,42 @@ public class PaymentActivity extends AppCompatActivity {
         orderData.put("userEmail", user.getEmail());
         orderData.put("items", items);
         orderData.put("totalPrice", totalPrice);
-        orderData.put("status", "Menunggu Konfirmasi"); // Status Awal
+        orderData.put("status", "Menunggu Konfirmasi");
         orderData.put("timestamp", FieldValue.serverTimestamp());
 
-        // Kirim ke Firestore
         db.collection("orders").add(orderData)
                 .addOnSuccessListener(documentReference -> {
-                    // Sukses
-                    Toast.makeText(this, "Pesanan Berhasil Dibuat!", Toast.LENGTH_SHORT).show();
+
+                    updateUserSpending(user.getUid(), totalPrice);
 
                     cartManager.clearCart();
+                    Toast.makeText(this, "Pembayaran Berhasil!", Toast.LENGTH_SHORT).show();
 
                     Intent intent = new Intent(PaymentActivity.this, OrderStatusActivity.class);
-                    intent.putExtra("ORDER_ID", documentReference.getId());
+                    intent.putExtra("ORDER_ID", documentReference.getId()); // Bawa ID Order
                     startActivity(intent);
-                    finish();
+                    finish(); // Tutup halaman payment
                 })
                 .addOnFailureListener(e -> {
                     // Gagal
                     btnConfirmPayment.setEnabled(true);
                     btnConfirmPayment.setText("SAYA SUDAH BAYAR");
-                    Toast.makeText(this, "Gagal: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "Gagal memproses pesanan: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                });
+    }
+
+    // --- LOGIKA MEMBERSHIP ---
+    private void updateUserSpending(String userId, long amount) {
+        // Menggunakan FieldValue.increment agar aman (tidak menimpa, tapi menjumlahkan)
+        db.collection("users").document(userId)
+                .update("totalSpending", FieldValue.increment(amount))
+                .addOnFailureListener(e -> {
+                    // Jika dokumen user belum ada, buat baru
+                    Map<String, Object> userData = new HashMap<>();
+                    userData.put("totalSpending", amount);
+                    userData.put("email", mAuth.getCurrentUser().getEmail());
+                    // SetOptions.merge() agar tidak menimpa data lain jika ada
+                    db.collection("users").document(userId).set(userData, SetOptions.merge());
                 });
     }
 

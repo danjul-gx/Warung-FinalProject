@@ -32,7 +32,10 @@
 
         <activity android:name=".DetailActivity" android:exported="false" />
         <activity android:name=".PaymentActivity" android:exported="false" />
+
         <activity android:name=".OrderStatusActivity" android:exported="false" />
+
+        <activity android:name=".OrderHistoryActivity" android:exported="false" />
 
     </application>
 

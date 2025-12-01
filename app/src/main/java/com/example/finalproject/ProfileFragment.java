@@ -22,12 +22,15 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 public class ProfileFragment extends Fragment {
 
-    private TextView tvName, tvEmail;
+    private TextView tvName, tvEmail, tvMemberStatus;
     private Button btnLogout, btnEditProfile, btnOrderStatus;
+
     private FirebaseAuth mAuth;
+    private FirebaseFirestore db;
 
     @Nullable
     @Override
@@ -35,18 +38,21 @@ public class ProfileFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
 
         mAuth = FirebaseAuth.getInstance();
+        db = FirebaseFirestore.getInstance();
 
-        // 1. Hubungkan View
         tvName = view.findViewById(R.id.tvName);
         tvEmail = view.findViewById(R.id.tvEmail);
+        tvMemberStatus = view.findViewById(R.id.tvMemberStatus);
+
         btnLogout = view.findViewById(R.id.btnLogout);
         btnEditProfile = view.findViewById(R.id.btnEditProfile);
-        btnOrderStatus = view.findViewById(R.id.btnOrderStatus);
+        btnOrderStatus = view.findViewById(R.id.btnOrderStatus); // Tombol Lacak Pesanan
 
-        // 2. Load Data User saat ini
         loadUserData();
 
-        // 3. Listener Tombol Logout
+        // --- SETUP BUTTON LISTENERS ---
+
+        // A. Tombol Logout
         if (btnLogout != null) {
             btnLogout.setOnClickListener(v -> {
                 mAuth.signOut();
@@ -56,15 +62,15 @@ public class ProfileFragment extends Fragment {
             });
         }
 
-        // 4. Listener Tombol Lacak Pesanan
+        // B. Tombol Lacak Pesanan -> Ke Halaman Riwayat (History)
         if (btnOrderStatus != null) {
             btnOrderStatus.setOnClickListener(v -> {
-                Intent intent = new Intent(getActivity(), OrderStatusActivity.class);
+                Intent intent = new Intent(getActivity(), OrderHistoryActivity.class);
                 startActivity(intent);
             });
         }
 
-        // 5. Listener Tombol Edit Profil (Munculkan Dialog Custom)
+        // C. Tombol Edit Profil -> Buka Dialog
         if (btnEditProfile != null) {
             btnEditProfile.setOnClickListener(v -> showEditProfileDialog());
         }
@@ -78,7 +84,7 @@ public class ProfileFragment extends Fragment {
             // Set Email
             if (tvEmail != null) tvEmail.setText(user.getEmail());
 
-            // Set Nama (Prioritas: DisplayName -> Email Name -> Default)
+            // Set Nama
             if (tvName != null) {
                 if (user.getDisplayName() != null && !user.getDisplayName().isEmpty()) {
                     tvName.setText(user.getDisplayName());
@@ -91,36 +97,68 @@ public class ProfileFragment extends Fragment {
                     }
                 }
             }
+
+
+
+            if (tvMemberStatus != null) {
+                db.collection("users").document(user.getUid())
+                        .get()
+                        .addOnSuccessListener(documentSnapshot -> {
+                            if (documentSnapshot.exists() && documentSnapshot.contains("totalSpending")) {
+                                long totalSpent = documentSnapshot.getLong("totalSpending");
+                                updateMemberStatus(totalSpent);
+                            } else {
+                                updateMemberStatus(0); // Belum pernah belanja
+                            }
+                        });
+            }
         }
     }
 
+    private void updateMemberStatus(long totalSpent) {
+        String status;
+        int colorCode;
+
+        if (totalSpent >= 1000000) {
+            status = "PLATINUM MEMBER";
+            colorCode = Color.parseColor("#E5E4E2");
+        } else if (totalSpent >= 500000) {
+            status = "GOLD MEMBER";
+            colorCode = Color.parseColor("#FFD700");
+        } else if (totalSpent >= 200000) {
+            status = "SILVER MEMBER";
+            colorCode = Color.parseColor("#C0C0C0");
+        } else if (totalSpent >= 50000) {
+            status = "BRONZE MEMBER";
+            colorCode = Color.parseColor("#CD7F32");
+        } else {
+            status = "NEW MEMBER";
+            colorCode = Color.parseColor("#8D6E63");
+        }
+
+        tvMemberStatus.setText(status);
+        tvMemberStatus.setTextColor(colorCode);
+    }
+
     private void showEditProfileDialog() {
-        // A. Siapkan Dialog Builder
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         LayoutInflater inflater = requireActivity().getLayoutInflater();
-
-        // B. Inflate Layout Custom (dialog_edit_profile.xml)
         View dialogView = inflater.inflate(R.layout.dialog_edit_profile, null);
         builder.setView(dialogView);
 
         AlertDialog dialog = builder.create();
-
-        // C. PENTING: Set Background Transparan agar sudut CardView terlihat melengkung
         if (dialog.getWindow() != null) {
             dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         }
 
-        // D. Hubungkan View di dalam Dialog
         TextInputEditText etEditName = dialogView.findViewById(R.id.etEditName);
         Button btnSave = dialogView.findViewById(R.id.btnSaveEdit);
         Button btnCancel = dialogView.findViewById(R.id.btnCancelEdit);
 
-        // E. Isi input dengan nama yang sekarang
         if (tvName.getText() != null) {
             etEditName.setText(tvName.getText().toString());
         }
 
-        // F. Aksi Tombol Simpan
         btnSave.setOnClickListener(v -> {
             String newName = etEditName.getText().toString().trim();
             if (!newName.isEmpty()) {
@@ -131,16 +169,13 @@ public class ProfileFragment extends Fragment {
             }
         });
 
-        // G. Aksi Tombol Batal
         btnCancel.setOnClickListener(v -> dialog.dismiss());
-
         dialog.show();
     }
 
     private void updateFirebaseProfile(String newName) {
         FirebaseUser user = mAuth.getCurrentUser();
         if (user != null) {
-            // Request update profile ke Firebase
             UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
                     .setDisplayName(newName)
                     .build();
@@ -151,7 +186,7 @@ public class ProfileFragment extends Fragment {
                         public void onComplete(@NonNull Task<Void> task) {
                             if (task.isSuccessful()) {
                                 Toast.makeText(getContext(), "Profil diperbarui!", Toast.LENGTH_SHORT).show();
-                                tvName.setText(newName); // Update tampilan langsung
+                                tvName.setText(newName);
                             } else {
                                 Toast.makeText(getContext(), "Gagal update profil", Toast.LENGTH_SHORT).show();
                             }

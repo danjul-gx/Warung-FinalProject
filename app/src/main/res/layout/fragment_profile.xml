@@ -105,13 +105,15 @@
                     android:layout_marginEnd="8dp"/>
 
                 <TextView
+                    android:id="@+id/tvMemberStatus"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="GOLD MEMBER"
+                    android:text="NEW MEMBER"
                     android:textColor="@color/brand_brown"
                     android:textStyle="bold"
                     android:textSize="14sp"
                     android:letterSpacing="0.05"/>
+
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 

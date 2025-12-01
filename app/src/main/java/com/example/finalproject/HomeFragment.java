@@ -75,7 +75,7 @@ public class HomeFragment extends Fragment implements MenuAdapter.OnItemAddedLis
         mainContent = view.findViewById(R.id.mainContent);
 
         List<Integer> bannerImages = Arrays.asList(
-                R.drawable.banner_1, R.drawable.banner_1, R.drawable.banner_1
+                R.drawable.banner_1, R.drawable.banner_2, R.drawable.banner_1
         );
         BannerAdapter bannerAdapter = new BannerAdapter(bannerImages);
         vpBanner.setAdapter(bannerAdapter);
